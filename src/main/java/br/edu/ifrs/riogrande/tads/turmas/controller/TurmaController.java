@@ -54,5 +54,4 @@ public class TurmaController {
   public Turma filtrarPorCodigoTurma(@RequestParam String codigoTurma) {
       return turmaService.listarTurmasPorCodigo(codigoTurma);
   }
-
 }

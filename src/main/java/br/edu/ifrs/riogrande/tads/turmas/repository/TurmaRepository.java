@@ -13,4 +13,6 @@ public interface TurmaRepository extends CrudRepository<Turma, Integer> {
     List<Turma> findByAno(String ano);
     List<Turma> findBySigla(String sigla);
     Turma findByCodigoTurma(String codigoTurma);
+
+    
 }
