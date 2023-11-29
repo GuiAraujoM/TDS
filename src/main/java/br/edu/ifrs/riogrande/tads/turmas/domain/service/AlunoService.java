@@ -7,7 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifrs.riogrande.tads.turmas.domain.dto.AlunoDTO;
+import br.edu.ifrs.riogrande.tads.turmas.domain.dto.TurmaDTO;
 import br.edu.ifrs.riogrande.tads.turmas.domain.entity.Aluno;
+import br.edu.ifrs.riogrande.tads.turmas.domain.entity.Turma;
 import br.edu.ifrs.riogrande.tads.turmas.repository.AlunoRepository;
 
 @Service
@@ -31,6 +33,12 @@ public class AlunoService {
     return aluno;
   }
 
+  private TurmaDTO converteTurmaDTO(Turma turma) {
+    TurmaDTO dto = new TurmaDTO();
+    BeanUtils.copyProperties(turma, dto);
+    return dto;
+  }
+
   public List<AlunoDTO> findAll() {
     return alunoRepository.findAll().stream()
         .map(this::converteDTO)
@@ -46,4 +54,20 @@ public class AlunoService {
   public Aluno listarAlunosPorCpf(String cpf) {
     return alunoRepository.findByCpf(cpf);
   }
+
+  // public List<TurmaDTO> listarTurmas(String cpf) {
+  //   System.out.println("aluno: " + alunoRepository.findByCpf(cpf));
+  //   System.out.println("turmas: " + alunoRepository.findByCpf(cpf).getTurmas());
+  //   return alunoRepository.findByCpf(cpf).getTurmas().stream()
+  //   .map(this::converteTurmaDTO)
+  //   .collect(Collectors.toList());
+  // }
+
+  public List<TurmaDTO> listarTurmas(String cpf) {
+      System.out.println("aluno: " + alunoRepository.findByCpf(cpf));
+      System.out.println("turmas: " + alunoRepository.findByCpf(cpf).getTurmas());
+      return alunoRepository.findByCpfWithTurmas(cpf).getTurmas().stream()
+      .map(this::converteTurmaDTO)
+      .collect(Collectors.toList());
+    }
 }

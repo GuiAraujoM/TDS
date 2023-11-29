@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -44,6 +45,11 @@ public class AlunoController {
   @GetMapping(params = "cpf")
   public Aluno filtrarPorAno(@RequestParam String cpf) {
       return alunoService.listarAlunosPorCpf(cpf);
+  }
+
+  @GetMapping(path = "/{cpf}/turmas")
+  public List<TurmaDTO> listarTurmas(@PathVariable("cpf") String cpf) {
+      return alunoService.listarTurmas(cpf);
   }
 
 }

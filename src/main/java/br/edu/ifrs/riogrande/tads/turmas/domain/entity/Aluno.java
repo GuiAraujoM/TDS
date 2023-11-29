@@ -28,5 +28,5 @@ public class Aluno {
     private String cpf;
 
     @ManyToMany
-    private List<Turma> alunos = new ArrayList<>();
+    private List<Turma> turmas = new ArrayList<>();
 }
