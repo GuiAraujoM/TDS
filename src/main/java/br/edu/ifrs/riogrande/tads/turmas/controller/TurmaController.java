@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifrs.riogrande.tads.turmas.domain.dto.AlunoDTO;
 import br.edu.ifrs.riogrande.tads.turmas.domain.dto.TurmaDTO;
 import br.edu.ifrs.riogrande.tads.turmas.domain.entity.Turma;
 import br.edu.ifrs.riogrande.tads.turmas.domain.service.TurmaService;
@@ -55,4 +57,8 @@ public class TurmaController {
       return turmaService.listarTurmasPorCodigo(codigoTurma);
   }
 
+  @PostMapping(path = "/{codigoTurma}/alunos")
+  public TurmaDTO adicionarAluno(@PathVariable("codigoTurma") String codigoTurma, @Valid @RequestBody AlunoDTO alunoDTO) { 
+    return turmaService.adicionarAluno(codigoTurma, alunoDTO);
+  }
 }

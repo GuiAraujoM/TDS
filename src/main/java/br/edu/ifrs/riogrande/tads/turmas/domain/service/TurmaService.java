@@ -1,22 +1,28 @@
 package br.edu.ifrs.riogrande.tads.turmas.domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifrs.riogrande.tads.turmas.domain.dto.AlunoDTO;
 import br.edu.ifrs.riogrande.tads.turmas.domain.dto.TurmaDTO;
+import br.edu.ifrs.riogrande.tads.turmas.domain.entity.Aluno;
 import br.edu.ifrs.riogrande.tads.turmas.domain.entity.Turma;
+import br.edu.ifrs.riogrande.tads.turmas.repository.AlunoRepository;
 import br.edu.ifrs.riogrande.tads.turmas.repository.TurmaRepository;
 
 @Service
 public class TurmaService {
 
   private final TurmaRepository turmaRepository;
+  private final AlunoRepository alunoRepository;
 
-  public TurmaService(TurmaRepository turmaRepository) {
+  public TurmaService(TurmaRepository turmaRepository, AlunoRepository alunoRepository) {
     this.turmaRepository = turmaRepository;
+    this.alunoRepository = alunoRepository;
   }
 
   private TurmaDTO converteDTO(Turma turma) {
@@ -52,5 +58,20 @@ public class TurmaService {
 
   public List<Turma> listarTurmasPorAno(String ano) {
     return turmaRepository.findByAno(ano);
+  }
+
+  public TurmaDTO adicionarAluno(String codigoTurma, AlunoDTO alunoDTO) {
+    Turma turma = turmaRepository.findByCodigoTurma(codigoTurma);
+    Aluno aluno = alunoRepository.findByCpf(alunoDTO.getCpf());
+
+    if(turma.getAlunos().size() > 0){
+      turma.getAlunos().add(aluno);
+    }else{
+      List<Aluno> alunos = new ArrayList<Aluno>();
+      alunos.add(aluno);
+      turma.setAlunos(alunos);
+    }
+    turmaRepository.save(turma);    
+    return converteDTO(turma);
   }
 }
